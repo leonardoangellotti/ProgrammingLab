@@ -1,24 +1,54 @@
-my_file = open('shampoo_sales.csv', 'r')
 
-lista = []
+class FileCSV():
 
-for line in my_file:
-  elements = line.split(',')
+  def __init__(self, name):
 
-  if elements[0] != 'Date':
-    date = elements[0]
-    sales = elements[1]
+    self.name = name
 
-    lista.append(float(sales))
+  def get_data(self):
 
-for elements in lista:
-  print(elements)
+    my_file = open(self.name, 'r')
 
-somma = 0.0
+    lista = []
 
-for elements in lista:
-  somma += elements
+    for lines in my_file:
+      line = lines.split(',')
 
-print('\nla somma è {}'.format(round(somma,2)))
+      lista.append(line)
 
-my_file.close()
+    my_file.close()
+
+    print(lista)
+  
+  def sum_sales(self):
+
+    my_file = open(self.name, 'r')
+
+    lista_sum = []
+
+    for line in my_file:
+      elements = line.split(',')
+
+      if elements[0] != 'Date':
+        date = elements[0]
+        sales = elements[1]
+
+        lista_sum.append(float(sales))
+
+    for elements in lista_sum:
+      print(elements)
+
+    somma = 0.0
+
+    for elements in lista_sum:
+      somma += elements
+
+    print('\nla somma è {}'.format(round(somma,1)))
+
+    my_file.close()
+
+
+file = FileCSV('shampoo_sales.csv')
+
+file.get_data()
+file.sum_sales()
