@@ -1,3 +1,6 @@
+#per disegnare il grafico
+from matplotlib import pyplot
+
 class Model():
 
     def fit(self, data):
@@ -12,37 +15,54 @@ class Model():
 
 class IncrementModel(Model):
 
+    def fit(self, data):
+
+        somma_incrementi = 0.0
+
+        incremento = 0.0
+
+        i = 0
+
+        for item in data:
+
+            if i + 1 >= len(data):
+                pass
+            
+            else:
+                incremento = data[i+1]-data[i]
+
+                somma_incrementi += incremento
+
+            i = i + 1
+
+        self.incremento_medio = somma_incrementi/(len(data)-1)
+    
     def predict(self, data): 
 
-            somma_incrementi = 0.0
+        prediction = self.incremento_medio + data[-1]
 
-            incremento = 0.0
+        data.append(prediction)  
 
-            i = 0
-
-
-            for item in data:
-
-                if i + 1 >= len(data):
-                    pass
-                
-                else:
-                    incremento = data[i+1]-data[i]
-
-                    somma_incrementi += incremento
-
-                i = i +1
+        return prediction      
 
 
-            incremento_tot = somma_incrementi/(len(data)-1)
 
-            prediction = incremento_tot + data[-1]
+#programma
 
-            return prediction
-        
+data = [8,19,5,98,7,5,60]
 
-data = [50,52,60]
+incremento = IncrementModel()
 
-predizione = IncrementModel().predict(data)
+#volte = int(input('\nquanti valori vuoi predire? '))
 
-print(predizione)
+#for i in range(volte): 
+incremento.fit(data)
+previsione = incremento.predict(data)
+incremento.fit(data)
+previsione = incremento.predict(data)
+incremento.fit(data)
+previsione = incremento.predict(data)
+
+pyplot.plot(data + [previsione], color='tab:red')
+pyplot.plot(data, color='tab:blue')
+pyplot.show()
